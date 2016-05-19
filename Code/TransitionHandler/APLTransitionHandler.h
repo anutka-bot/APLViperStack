@@ -10,7 +10,7 @@
 
 @class APLModuleOpenPromise;
 @protocol APLModuleInput;
-//@protocol APLTransitionCoordinator;
+@protocol APLTransitionCoordinator;
 
 @protocol APLTransitionHandler <NSObject>
 
