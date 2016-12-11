@@ -10,4 +10,6 @@
 
 @interface APLSegueBase : UIStoryboardSegue
 
+- (void)unwind;
+
 @end

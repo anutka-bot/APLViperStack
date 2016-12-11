@@ -10,4 +10,12 @@
 
 @implementation APLSegueBase
 
+- (void)perform {
+    
+}
+
+- (void)unwind {
+    
+}
+
 @end
