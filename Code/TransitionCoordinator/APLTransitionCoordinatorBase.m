@@ -16,10 +16,8 @@
 
 @implementation APLTransitionCoordinatorBase
 
-- (void)configureDestinationController:(UIViewController *)viewController
-{
-    if ([self _canCoordinateTransition])
-    {
+- (void)configureDestinationController:(UIViewController *)viewController {
+    if ([self _canCoordinateTransition]) {
         viewController.modalPresentationStyle = UIModalPresentationCustom;
         viewController.transitioningDelegate = (id<UIViewControllerTransitioningDelegate>)self;
     }
@@ -30,8 +28,7 @@
     BOOL result = NO;
     
     if ([self conformsToProtocol:@protocol(UIViewControllerTransitioningDelegate)] &&
-        [self conformsToProtocol:@protocol(UIViewControllerAnimatedTransitioning)])
-    {
+        [self conformsToProtocol:@protocol(UIViewControllerAnimatedTransitioning)]) {
         result = YES;
     }
     

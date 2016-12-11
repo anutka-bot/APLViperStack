@@ -19,32 +19,26 @@ static IMP originalPrepareForSegueMethodImp;
 @dynamic moduleInput;
 @dynamic coordinator;
 
-+ (void)initialize
-{
++ (void)initialize {
     [self swizzlePrepareForSegue];
 }
 
 #pragma mark - APLTransitionHandler
 
-- (APLModuleOpenPromise *)openModuleWithSegueIdentifier:(NSString *)segueIdentifier
-{
+- (APLModuleOpenPromise *)openModuleWithSegueIdentifier:(NSString *)segueIdentifier {
     APLModuleOpenPromise *promise = [APLModuleOpenPromise new];
     
     UIStoryboardSegue *segue = nil;
-    if ([self respondsToSelector:@selector(coordinator)])
-    {
-        if ([self.coordinator respondsToSelector:@selector(segueWithId:)])
-        {
+    if ([self respondsToSelector:@selector(coordinator)]) {
+        if ([self.coordinator respondsToSelector:@selector(segueWithId:)]) {
             segue = [self.coordinator segueWithId:segueIdentifier];
         }
     }
-    dispatch_async(dispatch_get_main_queue(), ^
-    {
-        if (segue)
-        {
+    dispatch_async(dispatch_get_main_queue(),
+    ^{
+        if (segue) {
             [segue perform];
-        } else
-        {
+        } else {
             [self performSegueWithIdentifier:segueIdentifier sender:promise];
         }
     });
@@ -52,13 +46,24 @@ static IMP originalPrepareForSegueMethodImp;
     return promise;
 }
 
+- (APLModuleOpenPromise *)openModuleWithSegue:(UIStoryboardSegue *)segue {
+    APLModuleOpenPromise *promise = [APLModuleOpenPromise new];
+    
+    dispatch_async(dispatch_get_main_queue(),
+                   ^{
+                       if (segue) {
+                           [segue perform];
+                       }
+                   });    
+    return promise;
+}
+
 #pragma mark - PrepareForSegue swizzling
 
-+ (void)swizzlePrepareForSegue
-{
++ (void)swizzlePrepareForSegue {
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
-    {
+    dispatch_once(&onceToken,
+    ^{
         IMP reamplerPrepareForSegueImp = (IMP)APLPrepareForSegueSender;
         
         Method prepareForSegueMethod = class_getInstanceMethod([self class], @selector(prepareForSegue:sender:));
@@ -66,13 +71,11 @@ static IMP originalPrepareForSegueMethodImp;
     });
 }
 
-void APLPrepareForSegueSender(id self, SEL selector, UIStoryboardSegue *segue, id sender)
-{
+void APLPrepareForSegueSender(id self, SEL selector, UIStoryboardSegue *segue, id sender) {
     
     ((void(*)(id,SEL,UIStoryboardSegue*,id))originalPrepareForSegueMethodImp)(self, selector, segue, sender);
     
-    if (![sender isKindOfClass:[APLModuleOpenPromise class]])
-    {
+    if (![sender isKindOfClass:[APLModuleOpenPromise class]]) {
         return;
     }
     
@@ -82,15 +85,13 @@ void APLPrepareForSegueSender(id self, SEL selector, UIStoryboardSegue *segue, i
     
     [self _configureDestination:destinationViewController];
     
-    if ([destinationViewController isKindOfClass:[UINavigationController class]])
-    {
+    if ([destinationViewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *navigationController = segue.destinationViewController;
         destinationViewController = navigationController.topViewController;
     }
     
     id<APLTransitionHandler> targetModuleTransitionHandler = destinationViewController;
-    if ([targetModuleTransitionHandler respondsToSelector:@selector(moduleInput)])
-    {
+    if ([targetModuleTransitionHandler respondsToSelector:@selector(moduleInput)]) {
         moduleInput = [targetModuleTransitionHandler moduleInput];
     }
     
@@ -98,12 +99,9 @@ void APLPrepareForSegueSender(id self, SEL selector, UIStoryboardSegue *segue, i
     openModulePromise.moduleInput = moduleInput;
 }
 
-- (void)_configureDestination:(UIViewController *)destination
-{
-    if ([self respondsToSelector:@selector(coordinator)])
-    {
-        if ([self.coordinator respondsToSelector:@selector(configureDestinationController:)])
-        {
+- (void)_configureDestination:(UIViewController *)destination {
+    if ([self respondsToSelector:@selector(coordinator)]) {
+        if ([self.coordinator respondsToSelector:@selector(configureDestinationController:)]) {
             [self.coordinator configureDestinationController:destination];
         }
     }

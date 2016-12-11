@@ -19,15 +19,13 @@
 
 @implementation APLModuleOpenPromise
 
-- (void)setModuleInput:(id<APLModuleInput>)moduleInput
-{
+- (void)setModuleInput:(id<APLModuleInput>)moduleInput {
     self.moduleInput = moduleInput;
     self.moduleInputWasSet = YES;
     [self _tryPerformLink];
 }
 
-- (void)linkWithBlock:(APLModuleLinkBlock)linkBlock
-{
+- (void)linkWithBlock:(APLModuleLinkBlock)linkBlock {
     self.linkBlock = linkBlock;
     self.linkBlockWasSet = YES;
     [self _tryPerformLink];
@@ -35,21 +33,17 @@
 
 #pragma mark - Private
 
-- (void)_tryPerformLink
-{
+- (void)_tryPerformLink {
     if (self.linkBlockWasSet && self.moduleInputWasSet)
     {
         [self _performLink];
     }
 }
 
-- (void)_performLink
-{
-    if (self.linkBlock)
-    {
+- (void)_performLink {
+    if (self.linkBlock) {
         id<APLModuleOutput> moduleOutput = self.linkBlock(self.moduleInput);
-        if ([self.moduleInput respondsToSelector:@selector(setModuleOutput:)])
-        {
+        if ([self.moduleInput respondsToSelector:@selector(setModuleOutput:)]) {
             [self.moduleInput setModuleOutput:moduleOutput];
         }
         if (self.postLinkBlock) {
