@@ -15,9 +15,9 @@
 #import "APLModuleViewController.h"
 #import "APLSegue.h"
 #import "APLStoryboardSegueBase.h"
-#import "APLTransitionCoordinator.h"
-#import "APLTransitionCoordinatorBase.h"
-#import "APLTransitionHandler.h"
-#import "UIViewController+APLTransitionHandler.h"
+#import "TransitionCoordinator/APLTransitionCoordinator.h"
+#import "TransitionCoordinator/APLTransitionCoordinatorBase.h"
+#import "TransitionHandler/APLTransitionHandler.h"
+#import "TransitionHandler/UIViewController+APLTransitionHandler.h"
 
 #endif /* APLViperStack_h */
