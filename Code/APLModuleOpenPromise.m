@@ -11,22 +11,22 @@
 
 @interface APLModuleOpenPromise ()
 
-@property (nonatomic,strong) __nullable APLModuleLinkBlock linkBlock;
-@property (nonatomic,assign) BOOL linkBlockWasSet;
-@property (nonatomic,assign) BOOL moduleInputWasSet;
+@property (nonatomic, copy) APLModuleLinkBlock linkBlock;
+@property (nonatomic, assign) BOOL linkBlockWasSet;
+@property (nonatomic, assign) BOOL moduleInputWasSet;
 
 @end
 
 @implementation APLModuleOpenPromise
 
 - (void)setModuleInput:(id<APLModuleInput>)moduleInput {
-    self.moduleInput = moduleInput;
+    _moduleInput = moduleInput;
     self.moduleInputWasSet = YES;
     [self _tryPerformLink];
 }
 
 - (void)linkWithBlock:(APLModuleLinkBlock)linkBlock {
-    self.linkBlock = linkBlock;
+    _linkBlock = linkBlock;
     self.linkBlockWasSet = YES;
     [self _tryPerformLink];
 }

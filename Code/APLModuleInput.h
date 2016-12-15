@@ -14,6 +14,6 @@
 
 @optional
 
-- (void)setModuleOutput:(id<APLModuleOutput>)moduleOutput;
+@property (nonatomic, weak) id<APLModuleOutput> moduleOutput;
 
 @end

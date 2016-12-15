@@ -1,14 +1,14 @@
 //
-//  APLSegueBase.m
+//  Storyboard.m
 //  Pods
 //
 //  Created by Semyon Belokovsky on 11/12/2016.
 //
 //
 
-#import "APLSegueBase.h"
+#import "APLStoryboardSegueBase.h"
 
-@implementation APLSegueBase
+@implementation APLStoryboardSegueBase
 
 - (void)perform {
     

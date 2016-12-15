@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "APLSegue.h"
+#import "APLModuleOpenPromise.h"
 
 @class APLModuleOpenPromise;
 @protocol APLModuleInput;
@@ -19,6 +21,6 @@
 @property (nonatomic, strong) id<APLTransitionCoordinator> coordinator;
 
 - (APLModuleOpenPromise *)openModuleWithSegueIdentifier:(NSString *)segueIdentifier;
-- (APLModuleOpenPromise *)openModuleWithSegue:(UIStoryboardSegue *)segue;
+- (APLModuleOpenPromise *)openModuleWithAPLSegue:(APLSegue *)segue linkBlock:(APLModuleLinkBlock)linkBlock;
 
 @end

@@ -46,12 +46,31 @@ static IMP originalPrepareForSegueMethodImp;
     return promise;
 }
 
-- (APLModuleOpenPromise *)openModuleWithSegue:(UIStoryboardSegue *)segue {
+- (APLModuleOpenPromise *)openModuleWithAPLSegue:(APLSegue *)segue linkBlock:(APLModuleLinkBlock)linkBlock {
     APLModuleOpenPromise *promise = [APLModuleOpenPromise new];
     
     dispatch_async(dispatch_get_main_queue(),
                    ^{
                        if (segue) {
+                           id<APLModuleInput> moduleInput = nil;
+                           
+                           UIViewController *destinationViewController = segue.destination;
+                           
+                           [self _configureDestination:destinationViewController];
+                           
+                           if ([destinationViewController isKindOfClass:[UINavigationController class]]) {
+                               UINavigationController *navigationController = segue.destination;
+                               destinationViewController = navigationController.topViewController;
+                           }
+                           
+                           id<APLTransitionHandler> targetModuleTransitionHandler = destinationViewController;
+                           if ([targetModuleTransitionHandler respondsToSelector:@selector(moduleInput)]) {
+                               moduleInput = [targetModuleTransitionHandler moduleInput];
+                           }
+                           
+                           promise.moduleInput = moduleInput;
+                           [promise linkWithBlock:linkBlock];
+                           
                            [segue perform];
                        }
                    });    
