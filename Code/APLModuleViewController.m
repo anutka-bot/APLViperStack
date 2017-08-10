@@ -12,5 +12,6 @@
 @implementation APLModuleViewController
 
 @synthesize moduleInput;
+@synthesize coordinator;
 
 @end
