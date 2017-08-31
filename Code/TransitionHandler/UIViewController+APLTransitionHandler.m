@@ -59,7 +59,7 @@ static IMP originalPrepareForSegueMethodImp;
             [self _configureDestination:destinationViewController];
             
             if ([destinationViewController isKindOfClass:[UINavigationController class]]) {
-                UINavigationController *navigationController = segue.destination;
+                UINavigationController *navigationController = (UINavigationController *)segue.destination;
                 destinationViewController = navigationController.topViewController;
             }
             
