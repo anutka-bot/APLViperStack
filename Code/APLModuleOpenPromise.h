@@ -11,7 +11,7 @@
 @protocol APLModuleInput;
 @protocol APLModuleOutput;
 
-typedef void(^APLModulePostLinkBlock)();
+typedef void(^APLModulePostLinkBlock)(void);
 
 typedef id<APLModuleOutput>(^APLModuleLinkBlock)(id<APLModuleInput> moduleInput);
 
